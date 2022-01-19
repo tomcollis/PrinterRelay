@@ -1,18 +1,21 @@
 {
-    "name": "docker_web_app",
-    "version": "0.1.1",
-    "license": "GPL-3.0",
-    "description": "Node.js on Docker",
-    "author": "Tom Collis <tom.collis@gmail.com> (https://tcollis.co.uk/)",
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/tomcollis/PPHook.git"
-    },
-    "main": "index.js",
-    "scripts": {
-      "start": "node index.js"
-    },
-    "dependencies": {
-      "express": "^4.17.1"
-    }
+  "name": "PrntRelay",
+  "version": "1.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Tom Collis <tom.collis@gmail.com> (https://tcollis.co.uk/)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomcollis/PrinterRelay.git"
+  },
+  "license": "GPL-3.0",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "express": "^4.17.2"
   }
+}
