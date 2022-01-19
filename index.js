@@ -24,10 +24,17 @@ app.get('/', function(req, res){
   res.send({ error: "Hello World" });
 });
 
+app.post('/', function(req, res){
+  res.status(404);
+  res.set('Cache-control', `no-store`)
+  res.send({ error: "data shouldn't be posted here" });
+  console.log('received: data posted to wrong endpoint');
+});
+
 // the following, accepts any http posts that contains data
 
 app.post('/p/', function(req, res){
-  if (req.body.length <= 0) {
+  if (req.body.length < 1) {
     // post is empty
     res.status(404);
     res.set('Cache-control', `no-store`)
