@@ -20,8 +20,24 @@ function error(status, msg) {
 // Print Label
 function printLabel(ip, type, content) {
     console.log('Received and printed a ' + type + ' label to ' + ip);
-    var prntCmnd = 'printf "' + content + '" | nc -w 1 ' + ip + ' 9100';
+
+    // Process Label Type
+    switch(type) {
+      case "FreeText":
+        var finalContent = content;
+        break;
+      case "b64Full":
+        var data = content;
+        var buff = Buffer.from(data, 'base64');
+        var text = buff.toString('ascii');
+        var finalContent = text;
+        break;
+    };
+
+    // Create Print Command
+    var prntCmnd = 'printf "' + finalContent + '" | nc -w 1 ' + ip + ' 9100';
     console.log(prntCmnd);
+
     // Send Label to Printer
     exec( prntCmnd , (error, stdout, stderr) => {
     if (error) {
@@ -35,7 +51,7 @@ function printLabel(ip, type, content) {
     console.log(`stdout: ${stdout}`);
 });
 
-}
+};
 
 // a simple help guide
 app.get('/', function(req, res){
@@ -59,10 +75,7 @@ app.post('/p/', function(req, res){
     res.status(200);
     res.set('Cache-control', `no-store`)
     res.send({ success: "data received", body: req.body});
-    printLabel(req.body.printerIP, req.body.labelType, req.body.content)
-    // console.log('Received and printed a ' + req.body.labelType + ' label to ' + req.body.printerIP);
-    // var prntCmnd = 'printf "' + req.body.content + '" | nc -w 1 ' + req.body.printerIP + ' 9100';
-    // console.log(prntCmnd);
+    printLabel(req.body.printerIP, req.body.labelType, req.body.content);
   }
 });
 
@@ -79,10 +92,6 @@ app.use(function(req, res){
   res.set('Cache-control', `no-store`)
   res.send({ error: "can't find that" });
 });
-
-// Future Command
-// 
-// printf "^xa^cfa,50^fo100,100^fdHello World^fs^xz" | nc -w 1 printer_ip 9100
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
