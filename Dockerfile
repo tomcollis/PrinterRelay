@@ -5,12 +5,10 @@ WORKDIR /usr/src/app
 
 # Install prerequisites
 RUN apk add git
+# The following line ensures that the latest GitHub repo is copied and not cached
+RUN wget -P /usr/src "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h"
+# Pull app from GitHub
 RUN git clone https://github.com/tomcollis/PrinterRelay.git .
-
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-## COPY package*.json ./
 
 RUN npm install
 # If you are building your code for production
